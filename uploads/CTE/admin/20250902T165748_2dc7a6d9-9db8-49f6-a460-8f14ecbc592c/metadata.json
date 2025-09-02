@@ -1,0 +1,18 @@
+{
+  "job_id": "2dc7a6d9-9db8-49f6-a460-8f14ecbc592c",
+  "service_type": "CTE",
+  "user": "admin",
+  "role": "admin",
+  "created_utc": "20250902T165748",
+  "files": {
+    "chave_txt": "C:\\Users\\rafael.rocha\\PycharmProjects\\PythonProject\\MVP_CERTABOT\\uploads\\CTE\\admin\\20250902T165748_2dc7a6d9-9db8-49f6-a460-8f14ecbc592c\\chaves.txt",
+    "pfx_file": "C:\\Users\\rafael.rocha\\PycharmProjects\\PythonProject\\MVP_CERTABOT\\uploads\\CTE\\admin\\20250902T165748_2dc7a6d9-9db8-49f6-a460-8f14ecbc592c\\cert.pfx",
+    "placa_xlsx": "C:\\Users\\rafael.rocha\\PycharmProjects\\PythonProject\\MVP_CERTABOT\\uploads\\CTE\\admin\\20250902T165748_2dc7a6d9-9db8-49f6-a460-8f14ecbc592c\\placas.xlsx"
+  },
+  "credentials": {
+    "pfx_password": "****",
+    "gov_cpf": "12344456858",
+    "gov_password": "****"
+  },
+  "status": "RECEBIDO"
+}

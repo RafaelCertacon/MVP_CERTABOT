@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+python-jose[cryptography]
+passlib
+python-multipart
+sqlalchemy
+pydantic>=2
+pydantic-settings
+pyodbc
