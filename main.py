@@ -12,6 +12,7 @@ from br.com.certacon.certabot.db import crud
 from br.com.certacon.certabot.db.models import User
 from br.com.certacon.certabot.api.routers import auth as auth_router
 from br.com.certacon.certabot.api.routers import mvp as mvp_router
+from br.com.certacon.certabot.api.routers.post import nfe_routes_post as nfe_post
 
 # ---- Tags com descrição amigável (aparecem no Swagger) ----
 tags_metadata = [
@@ -78,6 +79,7 @@ def on_startup():
 # Routers
 app.include_router(auth_router.router)
 app.include_router(mvp_router.router)
+app.include_router(nfe_post.router)
 
 @app.get("/health", tags=["health"], summary="Verifica se o serviço está de pé", description="Retorna informações básicas de saúde da API.")
 def health():
@@ -95,8 +97,8 @@ def custom_openapi():
     )
     openapi_schema["tags"] = tags_metadata
     openapi_schema["servers"] = [
-        {"url": "http://127.0.0.1:2025", "description": "Local"},
-        {"url": "http://localhost:2025", "description": "Local (localhost)"},
+        {"url": "http://127.0.0.1:2905", "description": "Local"},
+        {"url": "http://localhost:2905", "description": "Local (localhost)"},
         # {"url": "https://api.seu-dominio.com", "description": "Produção"},  # habilite quando tiver
     ]
     app.openapi_schema = openapi_schema
@@ -108,4 +110,4 @@ if __name__ == "__main__":
     print("Criando/verificando tabelas…")
     Base.metadata.create_all(bind=engine)
     print("Tabelas OK.")
-    uvicorn.run("main:app", host="0.0.0.0", port=2025, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=2905, reload=True)
