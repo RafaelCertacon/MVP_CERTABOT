@@ -1,9 +1,10 @@
-fastapi
-uvicorn[standard]
-python-jose[cryptography]
-passlib
+fastapi~=0.116.1
+uvicorn[standard]~=0.35.0
+python-jose[cryptography]~=3.3.0
+passlib~=1.7.4
 python-multipart
-sqlalchemy
+sqlalchemy~=2.0.43
 pydantic>=2
 pydantic-settings
 pyodbc
+requests~=2.32.5
