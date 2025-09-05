@@ -34,8 +34,8 @@ RUN pip install --upgrade pip && pip install -r /app/requirements.txt
 COPY . /app
 RUN mkdir -p /app/uploads
 
-EXPOSE 2025
+EXPOSE 2905
 HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
-  CMD curl -fsS http://127.0.0.1:2025/health || exit 1
+  CMD curl -fsS http://127.0.0.1:2905/health || exit 1
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "2025", "--workers", "2"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "2905", "--workers", "2"]
