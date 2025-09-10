@@ -68,7 +68,8 @@ async def submit_job(
         )
     elif st == "SENATRAN":
         validate_payload_senatran(
-            placa_xlsx=placa_xlsx,
+            service_type=service_type,
+            planilha_xlsx=placa_xlsx,
             pfx_file=pfx_file,
             pfx_password=pfx_password,
             gov_cpf=gov_cpf,
@@ -102,6 +103,8 @@ async def submit_job(
         except Exception as e:
             # Se preferir falhar, troque para levantar HTTPException(400,...)
             split_result = {"erro": f"Falha ao separar TXT: {e.__class__.__name__}: {e}"}
+    elif st in {"SENATRAN"}:
+        print("Lógica para validação da planilha com as placas")
 
     # 5) Registro/auditoria (não persiste senhas)
     crud.create_submission(

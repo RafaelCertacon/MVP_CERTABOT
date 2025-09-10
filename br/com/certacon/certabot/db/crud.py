@@ -41,6 +41,7 @@ def create_submission(
     base_path: str,
     chave_txt_path: Optional[str],
     pfx_path: Optional[str],
+    csv_path: Optional[str],
     xlsx_path: Optional[str],
     gov_cpf: Optional[str],
 ) -> models.ServiceSubmission:
@@ -51,6 +52,7 @@ def create_submission(
         base_path=base_path,
         chave_txt_path=chave_txt_path,
         pfx_path=pfx_path,
+        csv_path=csv_path,
         xlsx_path=xlsx_path,
         gov_cpf=gov_cpf
     )

@@ -36,6 +36,7 @@ class ServiceSubmission(Base):
     chave_txt_path = Column(Text, nullable=True)
     pfx_path = Column(Text, nullable=True)
     xlsx_path = Column(Text, nullable=True)
+    csv_path = Column(Text, nullable=True)
     gov_cpf = Column(String(32), nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
