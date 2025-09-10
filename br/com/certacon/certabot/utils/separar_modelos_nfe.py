@@ -1,5 +1,6 @@
 from pathlib import Path
 from datetime import datetime
+from fastapi import requests
 from br.com.certacon.certabot.utils.save_folder_saida import _ensure_outdir
 
 
