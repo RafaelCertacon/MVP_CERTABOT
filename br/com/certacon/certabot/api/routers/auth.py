@@ -1,12 +1,17 @@
 # br/com/certacon/certabot/api/routers/auth.py
 from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.security import OAuth2PasswordRequestForm
+from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from br.com.certacon.certabot.api.deps import get_db
 from br.com.certacon.certabot.db import crud
 from br.com.certacon.certabot.db.schemas.auth import TokenOut
 from br.com.certacon.certabot.api.core.security import create_access_token
 from br.com.certacon.certabot.db.schemas.common import ErrorResponse
+
+class UserData(BaseModel):
+    username: str
+    password: str
 
 
 router = APIRouter(prefix="/auth", tags=["auth"])
@@ -33,7 +38,7 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 )
 def login(
     request: Request,
-    form_data: OAuth2PasswordRequestForm = Depends(),
+    form_data: UserData,
     db: Session = Depends(get_db),
 ):
     user = crud.get_user_by_username(db, form_data.username)

@@ -1,5 +1,5 @@
 from fastapi import Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer
+from fastapi.security import HTTPBearer
 from jose import jwt, JWTError
 from sqlalchemy.orm import Session
 
@@ -7,7 +7,7 @@ from br.com.certacon.certabot.api.core.config import settings
 from br.com.certacon.certabot.db import models
 from br.com.certacon.certabot.db.session import SessionLocal
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token")
+security = HTTPBearer()
 
 def get_db():
     db = SessionLocal()
@@ -16,14 +16,14 @@ def get_db():
     finally:
         db.close()
 
-async def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)) -> models.User:
+async def get_current_user(token: any = Depends(security), db: Session = Depends(get_db)):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Não autorizado",
         headers={"WWW-Authenticate": "Bearer"},
     )
     try:
-        payload = jwt.decode(token, settings.JWT_SECRET, algorithms=[settings.JWT_ALG])
+        payload = jwt.decode(token.credentials, settings.JWT_SECRET, algorithms=[settings.JWT_ALG])
         username: str = payload.get("sub")
         if not username:
             raise credentials_exception
