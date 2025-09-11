@@ -67,7 +67,7 @@ def validate_payload_nfe_nfce_cfe(
     if st == "CFE" and not planilha_csv:
         missing.append("planilha .csv (planilha_xlsx)")
 
-    if missing:
+    if len(missing) > 0:
         raise HTTPException(
             status_code=400,
             detail=f"{st}: campos obrigatórios ausentes: {', '.join(missing)}",
@@ -75,19 +75,24 @@ def validate_payload_nfe_nfce_cfe(
 
 def check_and_validate_senatran_auth_method(gov_cpf, gov_password, pfx_file, pfx_password):
     missing: list[str] = []
-    if not gov_cpf and not pfx_file:
-        missing.append("Forneça as informações de autenticação na plataforma")
 
-    if gov_cpf or gov_password:
-        if not gov_cpf:
-            missing.append("Forneça um CPF para login no gov")
-        if not gov_password:
-            missing.append("Forneça uma senha para login no gov")
+    if (gov_cpf and gov_password) or (pfx_file and pfx_password):
+        return missing
+
+    if not gov_cpf and not pfx_file and not gov_password and not pfx_password:
+        missing.append("Forneça as informações de autenticação na plataforma")
     else:
-        if not pfx_file:
-            missing.append("Forneça um arquivo de certificado digital para login")
-        if not pfx_password:
-            missing.append("Forneça uma senha do certificado digital para login")
+        if gov_cpf or gov_password:
+            if not gov_cpf:
+                missing.append("Forneça um CPF para login no gov")
+            if not gov_password:
+                missing.append("Forneça uma senha para login no gov")
+
+        if pfx_file or pfx_password:
+            if not pfx_file:
+                missing.append("Forneça um arquivo de certificado digital para login")
+            if not pfx_password:
+                missing.append("Forneça uma senha do certificado digital para login")
 
     return missing
 
@@ -121,7 +126,7 @@ def validate_payload_senatran(
 
     missing = check_and_validate_senatran_auth_method(gov_cpf, gov_password, pfx_file, pfx_password)
 
-    if missing:
+    if len(missing) > 0:
         raise HTTPException(
             status_code=400,
             detail=f"{st}: campos obrigatórios ausentes: {', '.join(missing)}",
