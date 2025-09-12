@@ -1,0 +1,15 @@
+services:
+  certabot-mvp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    environment:
+      - ACCEPT_EULA=Y
+      - DATABASE_URL=mssql+pyodbc://rafael.rocha:Certa%402024@192.168.0.26/teste?driver=ODBC+Driver+17+for+SQL+Server
+    ports:
+      - "2905:2905"
+    volumes:
+      - ./uploads:/app/uploads
+    restart: unless-stopped

@@ -93,4 +93,4 @@ def run_separator_using_jobid(
     except Exception:
         pass
 
-    return result
+    return {"ok": True, "job_id": job_id, "split_dir": str(folder_base), "Resultado": result}
