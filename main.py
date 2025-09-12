@@ -1,9 +1,7 @@
-# br/com/certacon/certabot/main.py
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
-from sqlalchemy import inspect
 
 from br.com.certacon.certabot.api.core.config import settings
 from br.com.certacon.certabot.db.session import engine, SessionLocal
@@ -11,10 +9,13 @@ from br.com.certacon.certabot.db.base import Base
 from br.com.certacon.certabot.db import crud
 from br.com.certacon.certabot.db.models import User
 from br.com.certacon.certabot.api.routers import auth as auth_router
-from br.com.certacon.certabot.api.routers import mvp as mvp_router
-from br.com.certacon.certabot.api.routers.post import nfe_routes_post as nfe_post
+from br.com.certacon.certabot.api.routers.post.NFE.nfe_route import router as nfe_router
+from br.com.certacon.certabot.api.routers.post.NFCE.nfce_route import router as nfce_router
+from br.com.certacon.certabot.api.routers.post.CTE.cte_route import router as cfe_router
+from br.com.certacon.certabot.api.routers.post.CFE.cfe_route import router as cte_router
+from br.com.certacon.certabot.api.routers.get.get_global import router as get_global
+from br.com.certacon.certabot.api.routers.post.SENATRAN.senatran_route import router as senatran_router
 
-# ---- Tags com descrição amigável (aparecem no Swagger) ----
 tags_metadata = [
     {
         "name": "auth",
@@ -76,10 +77,13 @@ def on_startup():
     Base.metadata.create_all(bind=engine)
     seed_users()
 
-# Routers
 app.include_router(auth_router.router)
-app.include_router(mvp_router.router)
-app.include_router(nfe_post.router)
+app.include_router(nfe_router,      prefix="/mvp/nfe")
+app.include_router(nfce_router,     prefix="/mvp/nfce")
+app.include_router(cfe_router,      prefix="/mvp/cfe")
+app.include_router(cte_router,      prefix="/mvp/cte")
+app.include_router(senatran_router, prefix="/mvp/senatran")
+app.include_router(get_global, prefix="/mvp/metrics")
 
 @app.get("/health", tags=["health"], summary="Verifica se o serviço está de pé", description="Retorna informações básicas de saúde da API.")
 def health():
@@ -99,7 +103,6 @@ def custom_openapi():
     openapi_schema["servers"] = [
         {"url": "http://127.0.0.1:2905", "description": "Local"},
         {"url": "http://localhost:2905", "description": "Local (localhost)"},
-        # {"url": "https://api.seu-dominio.com", "description": "Produção"},  # habilite quando tiver
     ]
     app.openapi_schema = openapi_schema
     return app.openapi_schema
