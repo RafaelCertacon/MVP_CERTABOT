@@ -1,12 +1,14 @@
-import shutil
-from typing import Optional
 from pathlib import Path
 from fastapi import UploadFile
 
-def save_upload(upload: Optional[UploadFile], target: Path) -> Optional[str]:
-    if not upload:
+def save_upload(up: UploadFile | None, dst: Path) -> str | None:
+    if not up:
         return None
-    target.parent.mkdir(parents=True, exist_ok=True)
-    with target.open("wb") as f:
-        shutil.copyfileobj(upload.file, f)
-    return str(target)
+    dst.parent.mkdir(parents=True, exist_ok=True)
+    with open(dst, "wb") as f:
+        while True:
+            chunk = up.file.read(1024 * 1024)
+            if not chunk:
+                break
+            f.write(chunk)
+    return str(dst)
